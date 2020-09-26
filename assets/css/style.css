@@ -1,0 +1,88 @@
+.card-like {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    color: white;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 6px;
+    padding: 50px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+
+.btn-irv:hover {
+    background: #02738d;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.btn-irv-default {
+    font-weight: bold;
+    background: #bbb;
+    color: #fff !important;
+}
+.btn-irv-default:hover {
+    background: #aaa;
+}
+
+.wizard {
+    overflow: hidden;
+}
+.wizard .wizard-header {
+    margin-bottom: 30px;
+}
+.wizard .wizard-header h1 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.wizard .wizard-header h1 small {
+    color: #bbb;
+}
+.wizard .wizard-header hr {
+    border-color: #038dab;
+    border-top-width: 2px;
+}
+.wizard .wizard-header .steps {
+    height: 15px;
+}
+.wizard .wizard-header .steps .wizard-step {
+    background: #038dab;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin: 0 10px;
+    opacity: 0.2;
+    border-radius: 50%;
+    transition: all 0.8s;
+}
+.wizard .wizard-header .steps .wizard-step.active {
+    opacity: 1;
+}
+.wizard .wizard-body {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.68, -0.3, 0.37, 0.6);
+}
+.wizard .wizard-body .step {
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    right: -100%;
+    opacity: 0;
+}
+.wizard .wizard-body .step.initial {
+    position: relative;
+}
+.wizard .wizard-body .step.off {
+    opacity: 0 !important;
+    right: 100% !important;
+}
+.wizard .wizard-body .step.active {
+    right: 0;
+    margin-left: 0;
+    margin-top: 0;
+    opacity: 1;
+    transition: all 0.4s linear;
+    transition-delay: 0.1s;
+}
+.wizard .wizard-footer {
+    margin-top: 30px;
+}

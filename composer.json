@@ -1,0 +1,54 @@
+{
+    "name": "rifrocket/laravelinstaller",
+    "description": "Laravel web Installation wizard",
+    "keywords": [
+        "rifrocket",
+        "laravelinstaller"
+    ],
+    "homepage": "https://github.com/rifrocket/laravelinstaller",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Mohammad Arif",
+            "email": "mohammad.arif9999@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "illuminate/support": "^6.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^4.0",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "RifRocket\\LaravelInstaller\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RifRocket\\LaravelInstaller\\Tests\\": "tests"
+        },
+        "files": [
+            "src/Helpers/functions.php"
+        ]
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "RifRocket\\LaravelInstaller\\LaravelInstallerServiceProvider"
+            ]
+        }
+    }
+}
