@@ -5,7 +5,8 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/rifrocket/laravelinstaller.svg?style=flat-square)](https://scrutinizer-ci.com/g/rifrocket/laravelinstaller)
 [![Total Downloads](https://img.shields.io/packagist/dt/rifrocket/laravelinstaller.svg?style=flat-square)](https://packagist.org/packages/rifrocket/laravelinstaller)
 
-THIS PACKAGE IS UNDER TESTING
+THIS PACKAGE IS UNDER TESTING AND DEVELOPMENT
+
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
 
 ## Installation
