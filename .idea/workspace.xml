@@ -10,13 +10,17 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1bdade8e-9e55-4696-b942-9d08f4d33ffe" name="Default Changelist" comment="" />
+    <list default="true" id="1bdade8e-9e55-4696-b942-9d08f4d33ffe" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
   <component name="FileTemplateManagerImpl">
@@ -53,6 +57,7 @@
       <option name="presentableId" value="Default" />
       <updated>1601117573726</updated>
       <workItem from="1601117575092" duration="2597000" />
+      <workItem from="1601271021338" duration="1753000" />
     </task>
     <servers />
   </component>
@@ -69,6 +74,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="765" y="241" key="#com.intellij.ide.util.MemberChooser" timestamp="1601118594011">
@@ -87,5 +93,9 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="667" y="234" width="585" height="582" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1601119314641" />
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1601272025628">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="623" y="227" width="672" height="678" key="search.everywhere.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1601272025628" />
   </component>
 </project>
