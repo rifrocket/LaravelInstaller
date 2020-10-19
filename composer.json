@@ -16,10 +16,7 @@
         }
     ],
    
-    "require-dev": {
-        "orchestra/testbench": "^4.0",
-        "phpunit/phpunit": "^8.0"
-    },
+    
     "autoload": {
         "psr-4": {
             "RifRocket\\LaravelInstaller\\": "src"
