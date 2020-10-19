@@ -25,10 +25,7 @@
             "RifRocket\\LaravelInstaller\\": "src"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "RifRocket\\LaravelInstaller\\Tests\\": "tests"
-        },
+   
         "files": [
             "src/Helpers/functions.php"
         ]
