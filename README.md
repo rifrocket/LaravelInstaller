@@ -1,7 +1,6 @@
 # Laravel web Installation wizard Package
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/rifrocket/laravelinstaller.svg?style=flat-square)](https://packagist.org/packages/rifrocket/laravelinstaller)
-[![Build Status](https://img.shields.io/travis/rifrocket/laravelinstaller/master.svg?style=flat-square)](https://travis-ci.org/rifrocket/laravelinstaller)
 [![Quality Score](https://img.shields.io/scrutinizer/g/rifrocket/laravelinstaller.svg?style=flat-square)](https://scrutinizer-ci.com/g/rifrocket/laravelinstaller)
 [![Total Downloads](https://img.shields.io/packagist/dt/rifrocket/laravelinstaller.svg?style=flat-square)](https://packagist.org/packages/rifrocket/laravelinstaller)
 
