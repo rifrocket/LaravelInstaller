@@ -1,5 +1,6 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Helpers;
 
 use Illuminate\Support\Facades\DB;

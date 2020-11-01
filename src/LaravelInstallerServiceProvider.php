@@ -9,37 +9,49 @@ use RifRocket\LaravelInstaller\Middleware\canUpdate;
 
 class LaravelInstallerServiceProvider extends ServiceProvider
 {
-    protected $defer = false;
-
-
-    public function register()
-    {
-        $this->publishFiles();
-        $this->loadRoutesFrom(__DIR__.'/../src/Routes/web.php');
-    }
-
+    /**
+     * Bootstrap the application services.
+     */
     public function boot(Router $router)
     {
+
         $router->middlewareGroup('install', [CanInstall::class]);
         $router->middlewareGroup('update', [CanUpdate::class]);
+        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
     }
+
+    /**
+     * Register the application services.
+     */
+    public function register()
+    {
+        // Automatically apply the package configuration
+        $this->mergeConfigFrom(__DIR__.'/Config/installer.php', 'laravelinstaller');
+
+        $this->publishFiles();
+
+        // Register the main class to use with the facade
+        $this->app->singleton('laravelinstaller', function () {
+            return new LaravelInstaller;
+        });
+    }
+
     protected function publishFiles()
     {
         $this->publishes([
-            __DIR__.'/../Config/installer.php' => base_path('config/installer.php'),
+            __DIR__.'/Config/installer.php' => base_path('config/installer.php'),
         ], 'laravelinstaller');
 
         $this->publishes([
-            __DIR__.'/../assets' => public_path('installer'),
+            __DIR__.'/Assets' => public_path('installer'),
         ], 'laravelinstaller');
 
         $this->publishes([
-            __DIR__.'/../src/Views' => base_path('resources/views/vendor/installer'),
+            __DIR__.'/Views' => base_path('resources/views/vendor/installer'),
         ], 'laravelinstaller');
 
         $this->publishes([
-            __DIR__.'/../src/Lang' => base_path('resources/lang'),
+            __DIR__.'/Lang' => base_path('resources/lang'),
         ], 'laravelinstaller');
     }
-
 }

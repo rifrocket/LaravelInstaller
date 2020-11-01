@@ -4,12 +4,12 @@
     {{ trans('installer_messages.environment.menu.templateTitle') }}
 @endsection
 
-@section('title')
+@section('sub_title')
     <i class="fa fa-cog fa-fw" aria-hidden="true"></i>
     {!! trans('installer_messages.environment.menu.title') !!}
 @endsection
 
-@section('container')
+@section('wizard-body')
 
     <p class="text-center">
         {!! trans('installer_messages.environment.menu.desc') !!}

@@ -74,6 +74,8 @@ return [
                 'name_required' => 'An environment name is required.',
                 'app_name_label' => 'App Name',
                 'app_name_placeholder' => 'App Name',
+                'app_domain_label' => 'App Domain',
+                'app_domain_placeholder' => 'App Domain',
                 'app_environment_label' => 'App Environment',
                 'app_environment_label_local' => 'Local',
                 'app_environment_label_developement' => 'Development',

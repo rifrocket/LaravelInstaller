@@ -1,15 +1,12 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Helpers;
 
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-/**
- * Class EnvironmentManager
- * @package RifRocket\LaravelInstaller\Helpers
- */
 class EnvironmentManager
 {
     /**
@@ -36,15 +33,19 @@ class EnvironmentManager
      *
      * @return string
      */
-    public function getEnvContent()
+    public function getEnvContent($final=null)
     {
-        if (! file_exists($this->envPath)) {
-            if (file_exists($this->envExamplePath)) {
-                copy($this->envExamplePath, $this->envPath);
-            } else {
-                touch($this->envPath);
+        if (empty($final))
+        {
+            if (config('installer.config.use_env_example_template') =='true' OR !file_exists($this->envPath)) {
+                if (file_exists($this->envExamplePath)) {
+                    copy($this->envExamplePath, $this->envPath);
+                } else {
+                    touch($this->envPath);
+                }
             }
         }
+
 
         return file_get_contents($this->envPath);
     }
@@ -80,9 +81,28 @@ class EnvironmentManager
     {
         $results = trans('installer_messages.environment.success');
         try {
-            foreach($request->all() as $key => $value) {
-                $this->update_env($key,$value);
+            if (config('installer.config.use_env_example_template')=='false')
+            {
+                $envFileData ='APP_KEY= base64:'.base64_encode(Str::random(32))."\n";
+                foreach($request->all() as $key => $value) {
+                    if ($key == "_token") {
+                        continue;
+                    }
+                    $envFileData .= $key . '=' . $value . "\n";
+                }
+                file_put_contents($this->envPath, $envFileData);
             }
+
+            elseif(config('installer.config.use_env_example_template') =='true')
+            {
+                foreach($request->all() as $key => $value) {
+                    $this->update_env($key, $value);
+
+                }
+                $this->update_env('APP_KEY', 'base64:'.base64_encode(Str::random(32)));
+
+            }
+
         } catch (Exception $e) {
             $results = trans('installer_messages.environment.errors');
         }

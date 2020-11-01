@@ -1,5 +1,6 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Controllers;
 
 use Exception;
@@ -7,8 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\DB;
+use PDO;
 use RifRocket\LaravelInstaller\Events\EnvironmentSaved;
 use RifRocket\LaravelInstaller\Helpers\EnvironmentManager;
+use RifRocket\LaravelInstaller\Helpers\ProgressHelper;
 use Validator;
 
 class EnvironmentController extends Controller
@@ -17,65 +20,27 @@ class EnvironmentController extends Controller
      * @var EnvironmentManager
      */
     protected $EnvironmentManager;
-
+    protected $ProgressBar;
     /**
      * @param EnvironmentManager $environmentManager
      */
-    public function __construct(EnvironmentManager $environmentManager)
+    public function __construct(EnvironmentManager $environmentManager,ProgressHelper $ProgressBar)
     {
         $this->EnvironmentManager = $environmentManager;
+        $this->ProgressBar = $ProgressBar;
     }
 
     /**
      * Display the Environment menu page.
-     *
      * @return \Illuminate\View\View
      */
     public function environmentMenu()
     {
-        return view('vendor.installer.environment');
-    }
-
-    /**
-     * Display the Environment page.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function environmentWizard()
-    {
+        $this->ProgressBar->update_session_data(3);
         $envConfig = $this->EnvironmentManager->getEnvContent();
-
         return view('vendor.installer.environment-wizard', compact('envConfig'));
     }
 
-    /**
-     * Display the Environment page.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function environmentClassic()
-    {
-        $envConfig = $this->EnvironmentManager->getEnvContent();
-
-        return view('vendor.installer.environment-classic', compact('envConfig'));
-    }
-
-    /**
-     * Processes the newly saved environment configuration (Classic).
-     *
-     * @param Request $input
-     * @param Redirector $redirect
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function saveClassic(Request $input, Redirector $redirect)
-    {
-        $message = $this->EnvironmentManager->saveFileClassic($input);
-
-        event(new EnvironmentSaved($input));
-
-        return $redirect->route('LaravelInstaller::environmentClassic')
-                        ->with(['message' => $message]);
-    }
 
     /**
      * Processes the newly saved environment configuration (Form Wizard).
@@ -90,9 +55,7 @@ class EnvironmentController extends Controller
         $messages = [
             'environment_custom.required_if' => trans('installer_messages.environment.wizard.form.name_required'),
         ];
-
         $validator = Validator::make($request->all(), $rules, $messages);
-
         if ($validator->fails()) {
             return $redirect->route('LaravelInstaller::environmentWizard')->withInput()->withErrors($validator->errors());
         }
@@ -108,11 +71,10 @@ class EnvironmentController extends Controller
         event(new EnvironmentSaved($request));
 
         return $redirect->route('LaravelInstaller::database')
-                        ->with(['results' => $results]);
+            ->with(['results' => $results]);
     }
 
     /**
-     * TODO: We can remove this code if PR will be merged: https://github.com/RachidLaasri/LaravelInstaller/pull/162
      * Validate database connection with user credentials (Form Wizard).
      *
      * @param Request $request
@@ -120,16 +82,28 @@ class EnvironmentController extends Controller
      */
     private function checkDatabaseConnection(Request $request)
     {
-        $connection = $request->input('DB_CONNECTION');
+        $DB_CONNECTION = $request->input('DB_CONNECTION');
+        $DB_HOST = $request->input('DB_HOST');
+        $DB_PORT = $request->input('DB_PORT');
+        $DB_DATABASE = $request->input('DB_DATABASE');
+        $DB_USERNAME = $request->input('DB_USERNAME');
+        $DB_PASSWORD = $request->input('DB_PASSWORD');
 
-        $settings = config("database.connections.$connection");
-//dd($request->all());
+      if((DB::connection()->getDatabaseName() != $DB_DATABASE) AND ($DB_CONNECTION=='mysql' OR $DB_CONNECTION=='MYSQL'))
+      {
+          $pdo = $this->getPDOConnection($DB_CONNECTION, $DB_HOST, $DB_PORT, $DB_USERNAME, $DB_PASSWORD);
+          $pdo->exec(sprintf('CREATE DATABASE IF NOT EXISTS %s ;', $DB_DATABASE));
+
+      }
+
+        $settings = config("database.connections.$DB_CONNECTION");
+
         config([
             'database' => [
-                'default' => $connection,
+                'default' => $DB_CONNECTION,
                 'connections' => [
-                    $connection => array_merge($settings, [
-                        'driver' => $connection,
+                    $DB_CONNECTION => array_merge($settings, [
+                        'driver' => $DB_CONNECTION,
                         'host' => $request->input('DB_HOST'),
                         'port' => $request->input('DB_PORT'),
                         'database' => $request->input('DB_DATABASE'),
@@ -139,15 +113,20 @@ class EnvironmentController extends Controller
                 ],
             ],
         ]);
-
         DB::purge();
 
         try {
             DB::connection()->getPdo();
-
             return true;
         } catch (Exception $e) {
             return false;
         }
+
+
+    }
+
+    private function getPDOConnection($driver,$host, $port, $username, $password)
+    {
+        return new PDO(sprintf($driver.':host=%s;port=%d;', $host, $port), $username, $password);
     }
 }

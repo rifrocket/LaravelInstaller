@@ -1,4 +1,4 @@
-{
+    {
     "name": "rifrocket/laravelinstaller",
     "description": "Laravel web Installation wizard",
     "keywords": [
@@ -15,22 +15,20 @@
             "role": "Developer"
         }
     ],
-   
-    
+    "require": {
+        "php": "^7.1",
+        "ext-json": "*",
+        "ext-http": "*"
+    },
     "autoload": {
         "psr-4": {
             "RifRocket\\LaravelInstaller\\": "src"
         }
     },
-   
-        "files": [
-            "src/Helpers/functions.php"
-        ]
-    },
-    "scripts": {
-        "test": "vendor/bin/phpunit",
-        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
-
+    "autoload-dev": {
+        "psr-4": {
+            "RifRocket\\LaravelInstaller\\Tests\\": "tests"
+        }
     },
     "config": {
         "sort-packages": true
@@ -39,7 +37,10 @@
         "laravel": {
             "providers": [
                 "RifRocket\\LaravelInstaller\\LaravelInstallerServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "LaravelInstaller": "RifRocket\\LaravelInstaller\\LaravelInstallerFacade"
+            }
         }
     }
 }

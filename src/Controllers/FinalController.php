@@ -1,8 +1,11 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Controllers;
 
+
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Session;
 use RifRocket\LaravelInstaller\Events\LaravelInstallerFinished;
 use RifRocket\LaravelInstaller\Helpers\EnvironmentManager;
 use RifRocket\LaravelInstaller\Helpers\FinalInstallManager;
@@ -22,10 +25,10 @@ class FinalController extends Controller
     {
         $finalMessages = $finalInstall->runFinal();
         $finalStatusMessage = $fileManager->update();
-        $finalEnvFile = $environment->getEnvContent();
+        $finalEnvFile = $environment->getEnvContent('final');
 
         event(new LaravelInstallerFinished);
-
-        return view('vendor.installer.finished', compact('finalMessages', 'finalStatusMessage', 'finalEnvFile'));
+        Session::forget(['currentProgress','installerSession']);
+        return view('vendor.installer.finished', compact('finalMessages', 'finalStatusMessage','finalEnvFile'));
     }
 }

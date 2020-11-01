@@ -1,114 +1,104 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') | @endif {{ trans('installer_messages.title') }}</title>
-        <link rel="icon" type="image/png" href="{{ asset('installer/img/favicon/favicon-16x16.png') }}" sizes="16x16"/>
-        <link rel="icon" type="image/png" href="{{ asset('installer/img/favicon/favicon-32x32.png') }}" sizes="32x32"/>
-        <link rel="icon" type="image/png" href="{{ asset('installer/img/favicon/favicon-96x96.png') }}" sizes="96x96"/>
-        <link href="{{ asset('installer/css/style.min.css') }}" rel="stylesheet"/>
-        @yield('style')
-        <script>
-            window.Laravel = <?php echo json_encode([
-                'csrfToken' => csrf_token(),
-            ]); ?>
-        </script>
-    </head>
-    <body>
-        <div class="master">
-            <div class="box">
-                <div class="header">
-                    <h1 class="header__title">@yield('title')</h1>
-                </div>
-                <ul class="step">
-                    <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('LaravelInstaller::final') }}">
-                        <i class="step__icon fa fa-server" aria-hidden="true"></i>
-                    </li>
-                    <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('LaravelInstaller::environment')}} {{ isActive('LaravelInstaller::environmentWizard')}} {{ isActive('LaravelInstaller::environmentClassic')}}">
-                        @if(Request::is('install/environment') || Request::is('install/environment/wizard') || Request::is('install/environment/classic') )
-                            <a href="{{ route('LaravelInstaller::environment') }}">
-                                <i class="step__icon fa fa-cog" aria-hidden="true"></i>
-                            </a>
-                        @else
-                            <i class="step__icon fa fa-cog" aria-hidden="true"></i>
-                        @endif
-                    </li>
-                    <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('LaravelInstaller::permissions') }}">
-                        @if(Request::is('install/permissions') || Request::is('install/environment') || Request::is('install/environment/wizard') || Request::is('install/environment/classic') )
-                            <a href="{{ route('LaravelInstaller::permissions') }}">
-                                <i class="step__icon fa fa-key" aria-hidden="true"></i>
-                            </a>
-                        @else
-                            <i class="step__icon fa fa-key" aria-hidden="true"></i>
-                        @endif
-                    </li>
-                    <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('LaravelInstaller::requirements') }}">
-                        @if(Request::is('install') || Request::is('install/requirements') || Request::is('install/permissions') || Request::is('install/environment') || Request::is('install/environment/wizard') || Request::is('install/environment/classic') )
-                            <a href="{{ route('LaravelInstaller::requirements') }}">
-                                <i class="step__icon fa fa-list" aria-hidden="true"></i>
-                            </a>
-                        @else
-                            <i class="step__icon fa fa-list" aria-hidden="true"></i>
-                        @endif
-                    </li>
-                    <li class="step__divider"></li>
-                    <li class="step__item {{ isActive('LaravelInstaller::welcome') }}">
-                        @if(Request::is('install') || Request::is('install/requirements') || Request::is('install/permissions') || Request::is('install/environment') || Request::is('install/environment/wizard') || Request::is('install/environment/classic') )
-                            <a href="{{ route('LaravelInstaller::welcome') }}">
-                                <i class="step__icon fa fa-home" aria-hidden="true"></i>
-                            </a>
-                        @else
-                            <i class="step__icon fa fa-home" aria-hidden="true"></i>
-                        @endif
-                    </li>
-                    <li class="step__divider"></li>
-                </ul>
-                <div class="main">
-                    @if (session('message'))
-                        <p class="alert text-center">
-                            <strong>
-                                @if(is_array(session('message')))
-                                    {{ session('message')['message'] }}
-                                @else
-                                    {{ session('message') }}
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@if (trim($__env->yieldContent('template_title')))@yield('template_title') | @endif {{ trans('installer_messages.title') }} </title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{asset('installer/css/style.css')}}">
+
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div class="wizard card-like">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <form action="/install/environment/saveWizard" method="post">
+                    @csrf
+                    <div class="wizard-header">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h1 class="text-center">
+                                    {{ config('installer.config.title') }}
+                                    <br>
+                                    <small>@yield('sub_title')</small>
+                                </h1>
+
+                                @if(! \Request::is('install'))
+                                <div class="progress">
+                                    <div class="progress-bar" id="progress_bar"  style="width: {{\Illuminate\Support\Facades\Session::get('currentProgress')}}%" role="progressbar"  aria-valuenow="{{\Illuminate\Support\Facades\Session::get('currentProgress')}}" aria-valuemin="0" aria-valuemax="100">{{number_format(\Illuminate\Support\Facades\Session::get('currentProgress'))}}%</div>
+                                </div>
                                 @endif
-                            </strong>
-                        </p>
-                    @endif
-                    @if(session()->has('errors'))
-                        <div class="alert alert-danger" id="error_alert">
-                            <button type="button" class="close" id="close_alert" data-dismiss="alert" aria-hidden="true">
-                                 <i class="fa fa-close" aria-hidden="true"></i>
-                            </button>
-                            <h4>
-                                <i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i>
-                                {{ trans('installer_messages.forms.errorTitle') }}
-                            </h4>
-                            <ul>
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+
+                                @if(\Request::is('install/environment/*') || \Request::is('install/environment') )
+                                <div class="steps text-center">
+                                    @for( $i=1; $i <= config('installer.config.num_of_environment_steps'); $i++)
+                                    <div class="wizard-step {{\RifRocket\LaravelInstaller\Helpers\ProgressHelper::envoirment_states()==$i ?'active':''}}"></div>
+                                    @endfor
+                                </div>
+                                @endif
+                            </div>
                         </div>
-                    @endif
-                    @yield('container')
-                </div>
+                    </div>
+
+                    {{--main body content--}}
+                    @section('wizard-body')
+                    @show
+                    {{--main body content--}}
+
+
+
+                    <div class="wizard-footer">
+                        <div class="row">
+                           @if(\Request::is('install/environment/*') || \Request::is('install/environment'))
+                                <div class="col-xs-6 pull-left block-center">
+                                    <button id="wizard-prev" style="display:none" type="button" class="btn btn-success flat btn-irv wizard-prev btn-irv-default">
+                                        Previous
+                                    </button>
+                                </div>
+                                <div class="col-xs-6 pull-right text-center">
+                                    <button id="wizard-next" type="button" class="btn btn-success flat btn-irv wizard-next">
+                                        Next
+                                    </button>
+                                </div>
+                                <div class="col-xs-6 pull-right block-center">
+                                    <button id="wizard-subm" style="display:none" type="submit" class="btn btn-success flat btn-irv">
+                                        Submit
+                                    </button>
+                                </div>
+                            @else
+                               @yield('navigation')
+                            @endif
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        @yield('scripts')
-        <script type="text/javascript">
-            var x = document.getElementById('error_alert');
-            var y = document.getElementById('close_alert');
-            y.onclick = function() {
-                x.style.display = "none";
-            };
-        </script>
-    </body>
+    </div>
+</div>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+<script  src="{{asset('installer/js//script.js')}}"></script>
+
+</body>
 </html>

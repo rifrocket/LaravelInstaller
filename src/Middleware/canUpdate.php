@@ -1,12 +1,13 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Middleware;
+
 
 use Closure;
 
 class canUpdate
 {
-    use \RifRocket\LaravelInstaller\Helpers\MigrationsHelper;
 
     /**
      * Handle an incoming request.

@@ -1,12 +1,13 @@
 <?php
 
 
-namespace RifRocket\LaravelInstaller;
+namespace RifRocket\LaravelInstaller\Controllers;
+
 
 use Illuminate\Routing\Controller;
 use RifRocket\LaravelInstaller\Helpers\DatabaseManager;
 
-class DatabseController
+class DatabaseController extends Controller
 {
     /**
      * @var DatabaseManager
@@ -28,8 +29,8 @@ class DatabseController
      */
     public function database()
     {
-        $response = $this->databaseManager->migrateAndSeed();
 
+        $response = $this->databaseManager->migrateAndSeed();
         return redirect()->route('LaravelInstaller::final')
             ->with(['message' => $response]);
     }

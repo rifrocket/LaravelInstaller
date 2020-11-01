@@ -1,5 +1,6 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Events;
 
 use Illuminate\Broadcasting\InteractsWithSockets;

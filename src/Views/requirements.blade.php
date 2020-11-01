@@ -4,18 +4,20 @@
     {{ trans('installer_messages.requirements.templateTitle') }}
 @endsection
 
-@section('title')
-    <i class="fa fa-list-ul fa-fw" aria-hidden="true"></i>
+@section('sub_title')
+    <i class="fa fa-server" aria-hidden="true"></i>
     {{ trans('installer_messages.requirements.title') }}
 @endsection
 
-@section('container')
+@section('wizard-body')
 
     @foreach($requirements['requirements'] as $type => $requirement)
         <ul class="list">
-            <li class="list__item list__title {{ $phpSupportInfo['supported'] ? 'success' : 'error' }}">
+            <li class="alert alert-{{ $phpSupportInfo['supported'] ? 'success' : 'error' }}">
+                <i class="fa fa-fw fa-{{ $phpSupportInfo['supported'] ? 'check-circle-o' : 'exclamation-circle' }} row-icon" aria-hidden="true"></i>
                 <strong>{{ ucfirst($type) }}</strong>
                 @if($type == 'php')
+
                     <strong>
                         <small>
                             (version {{ $phpSupportInfo['minimum'] }} required)
@@ -25,22 +27,23 @@
                         <strong>
                             {{ $phpSupportInfo['current'] }}
                         </strong>
-                        <i class="fa fa-fw fa-{{ $phpSupportInfo['supported'] ? 'check-circle-o' : 'exclamation-circle' }} row-icon" aria-hidden="true"></i>
+
                     </span>
                 @endif
             </li>
             @foreach($requirements['requirements'][$type] as $extention => $enabled)
-                <li class="list__item {{ $enabled ? 'success' : 'error' }}">
-                    {{ $extention }}
+                <li class="alert alert-{{ $enabled ? 'success' : 'error' }}">
                     <i class="fa fa-fw fa-{{ $enabled ? 'check-circle-o' : 'exclamation-circle' }} row-icon" aria-hidden="true"></i>
+                    {{ $extention }}
+
                 </li>
             @endforeach
         </ul>
     @endforeach
 
     @if ( ! isset($requirements['errors']) && $phpSupportInfo['supported'] )
-        <div class="buttons">
-            <a class="button" href="{{ route('LaravelInstaller::permissions') }}">
+        <div class="buttons text-center">
+            <a class="btn btn-success flat" href="{{ route('LaravelInstaller::permissions') }}">
                 {{ trans('installer_messages.requirements.next') }}
                 <i class="fa fa-angle-right fa-fw" aria-hidden="true"></i>
             </a>

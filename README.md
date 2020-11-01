@@ -7,7 +7,7 @@
 
 ##### THIS PACKAGE IS STILL UNDER TESTING AND DEVELOPMENT
 
-This package is build on top of the [rachidlaasri/laravel-installer](https://github.com/rashidlaasri/LaravelInstaller) package, This package just overcome some the big problems that I faced during my project development such as adding new environment elements in installation wizard form and validation of new variables. 
+This package is built on top of the [rachidlaasri/laravel-installer](https://github.com/rashidlaasri/LaravelInstaller) package, This package just overcomes some issues that I faced during my project development such as adding new environment elements in installation wizard form and validation of new variables. This package is specially focused to use after the final build of the project, it will use .env.excample file as a template for updating .env file.
 
 ##### key Feature:
 
@@ -67,9 +67,11 @@ If you discover any security related issues, please email mohammad.arif9999@gmai
 
 ## Credits
 
-- [Mohammad Arif](https://github.com/rifrocket)
-- [Rachid Laasri](https://github.com/rashidlaasri)
+- [Mohammad Arif](https://github.com/rifrocket) 
+- [Rachid Laasri](https://github.com/rashidlaasri) for core concept.
+- [Irving](https://github.com/irvingv8) for Layout design.
 - [All Contributors](../../contributors)
+
 
 ## License
 

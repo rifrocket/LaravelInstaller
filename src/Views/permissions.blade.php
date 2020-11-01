@@ -4,19 +4,19 @@
     {{ trans('installer_messages.permissions.templateTitle') }}
 @endsection
 
-@section('title')
+@section('sub_title')
     <i class="fa fa-key fa-fw" aria-hidden="true"></i>
     {{ trans('installer_messages.permissions.title') }}
 @endsection
 
-@section('container')
+@section('wizard-body')
 
     <ul class="list">
         @foreach($permissions['permissions'] as $permission)
-        <li class="list__item list__item--permissions {{ $permission['isSet'] ? 'success' : 'error' }}">
+        <li class="alert alert-{{ $permission['isSet'] ? 'success' : 'error' }}">
+            <i class="fa fa-fw fa-{{ $permission['isSet'] ? 'check-circle-o' : 'exclamation-circle' }}"></i>
             {{ $permission['folder'] }}
             <span>
-                <i class="fa fa-fw fa-{{ $permission['isSet'] ? 'check-circle-o' : 'exclamation-circle' }}"></i>
                 {{ $permission['permission'] }}
             </span>
         </li>
@@ -24,8 +24,8 @@
     </ul>
 
     @if ( ! isset($permissions['errors']))
-        <div class="buttons">
-            <a href="{{ route('LaravelInstaller::environment') }}" class="button">
+        <div class="buttons text-center">
+            <a href="{{ route('LaravelInstaller::environment') }}" class="btn btn-success flat">
                 {{ trans('installer_messages.permissions.next') }}
                 <i class="fa fa-angle-right fa-fw" aria-hidden="true"></i>
             </a>

@@ -1,6 +1,8 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Helpers;
+
 
 class PermissionsChecker
 {

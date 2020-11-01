@@ -1,9 +1,12 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Helpers;
+
 
 class InstalledFileManager
 {
+
     /**
      * Create installed file.
      *

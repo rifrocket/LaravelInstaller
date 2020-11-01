@@ -1,15 +1,16 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Controllers;
 
 use Illuminate\Routing\Controller;
 use RifRocket\LaravelInstaller\Helpers\DatabaseManager;
 use RifRocket\LaravelInstaller\Helpers\InstalledFileManager;
+use RifRocket\LaravelInstaller\Helpers\MigrationsHelper;
 
 class UpdateController extends Controller
 {
-    use \RifRocket\LaravelInstaller\Helpers\MigrationsHelper;
-
+    use MigrationsHelper;
     /**
      * Display the updater welcome page.
      *
@@ -44,7 +45,7 @@ class UpdateController extends Controller
         $response = $databaseManager->migrateAndSeed();
 
         return redirect()->route('LaravelUpdater::final')
-                         ->with(['message' => $response]);
+            ->with(['message' => $response]);
     }
 
     /**

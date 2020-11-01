@@ -1,5 +1,6 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Helpers;
 
 use Exception;
@@ -18,6 +19,7 @@ class DatabaseManager
      */
     public function migrateAndSeed()
     {
+
         $outputLog = new BufferedOutput;
 
         $this->sqlite($outputLog);
@@ -33,8 +35,12 @@ class DatabaseManager
      */
     private function migrate(BufferedOutput $outputLog)
     {
+
         try {
+            Artisan::call('migrate', ['--force'=> true]);
+            dd(3424);
             Artisan::call('migrate', ['--force'=> true], $outputLog);
+            dd(4234);
         } catch (Exception $e) {
             return $this->response($e->getMessage(), 'error', $outputLog);
         }

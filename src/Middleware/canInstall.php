@@ -1,9 +1,9 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Middleware;
 
 use Closure;
-use Redirect;
 
 class canInstall
 {

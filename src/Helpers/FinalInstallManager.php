@@ -1,13 +1,23 @@
 <?php
 
+
 namespace RifRocket\LaravelInstaller\Helpers;
 
 use Exception;
 use Illuminate\Support\Facades\Artisan;
+use MongoDB\Driver\Session;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 class FinalInstallManager
 {
+
+    private $ProgressBar;
+    public function __construct(ProgressHelper $ProgressBar)
+    {
+
+        $this->ProgressBar = $ProgressBar;
+    }
+
     /**
      * Run final commands.
      *
@@ -15,11 +25,12 @@ class FinalInstallManager
      */
     public function runFinal()
     {
+
         $outputLog = new BufferedOutput;
 
         $this->generateKey($outputLog);
         $this->publishVendorAssets($outputLog);
-
+        $this->ProgressBar->update_session_data(json_decode(\Session::get('installerSession'))->complete_steps+1);
         return $outputLog->fetch();
     }
 
